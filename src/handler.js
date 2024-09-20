@@ -1,6 +1,7 @@
-const { nanoid } = require("nanoid");
 const books = require("./books");
-const addBookHandler = (request, h) => {
+
+const addBookHandler = async (request, h) => {
+  const { nanoid } = await import('nanoid');
   const {
     name,
     year,
@@ -22,8 +23,7 @@ const addBookHandler = (request, h) => {
   } else if (readPage > pageCount) {
     const response = h.response({
       status: "fail",
-      message:
-        "Gagal menambahkan buku. readPage tidak boleh lebih besar dari pageCount",
+      message: "Gagal menambahkan buku. readPage tidak boleh lebih besar dari pageCount",
     });
     response.code(400);
     return response;
@@ -50,7 +50,7 @@ const addBookHandler = (request, h) => {
 
     books.push(newBook);
 
-    const isSuccess = books.filter((note) => note.id === id).length > 0;
+    const isSuccess = books.filter((book) => book.id === id).length > 0;
 
     if (isSuccess) {
       const response = h.response({
@@ -160,7 +160,7 @@ const getBookByIdHandler = (request, h) => {
   return response;
 };
 
-const editBookByIdHandler = (request, h) => {
+const editBookByIdHandler = async (request, h) => {
   const { id } = request.params;
   const {
     name,
@@ -186,8 +186,7 @@ const editBookByIdHandler = (request, h) => {
   } else if (readPage > pageCount) {
     const response = h.response({
       status: "fail",
-      message:
-        "Gagal memperbarui buku. readPage tidak boleh lebih besar dari pageCount",
+      message: "Gagal memperbarui buku. readPage tidak boleh lebih besar dari pageCount",
     });
     response.code(400);
     return response;
